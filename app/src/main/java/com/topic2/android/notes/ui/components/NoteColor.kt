@@ -14,6 +14,9 @@ import androidx.compose.foundation.border
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun NoteColor(
