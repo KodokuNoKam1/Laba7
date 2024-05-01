@@ -1,5 +1,4 @@
 package com.topic2.android.notes.ui.screens
-
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.clickable
@@ -15,6 +14,13 @@ import androidx.compose.ui.unit.sp
 import com.topic2.android.notes.domain.model.ColorModel
 import com.topic2.android.notes.ui.components.NoteColor
 import com.topic2.android.notes.util.fromHex
+import com.topic2.android.notes.viewmodel.MainViewModel
+
+@Composable
+fun SaveNoteScreen(viewModel: MainViewModel) {
+
+}
+
 
 @Composable
 private fun ColorPicker(
@@ -29,7 +35,6 @@ private fun ColorPicker(
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(8.dp)
-
         )
         LazyColumn(
             modifier = Modifier.fillMaxWidth()
@@ -46,9 +51,7 @@ private fun ColorPicker(
             }
         }
     }
-
 }
-
 @Composable
 fun ColorItem(
     color: ColorModel,
@@ -84,7 +87,6 @@ fun ColorItem(
 fun ColorItemView(){
     ColorItem(ColorModel.DEFAULT){}
 }
-
 @Preview
 @Composable
 fun  ColorPickerPreview() {
