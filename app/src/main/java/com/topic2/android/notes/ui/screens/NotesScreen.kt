@@ -28,78 +28,92 @@ fun NotesScreen(
         .observeAsState(listOf())
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
+
     Scaffold (topBar = {
         TopAppBar(
-            title = "Notes",
-            icon = Icons.Filled.List,
-            onIconClick = {
-                coroutineScope.launch {
-                    scaffoldState.drawerState.open()
-                }
-            }
-        )
-    },
-        scaffoldState = scaffoldState,
-        drawerContent = {
-            AppDrawer(
-                currentScreen = Screen.Notes, closeDrawerAction = {
-                    coroutineScope.launch {
-                        scaffoldState.drawerState.close()
+                    title = {
+                        Text(
+                            text = "Notes",
+                            color = MaterialTheme.colors.onPrimary
+                        )
+                    },
+                    navigationIcon = {
+                        IconButton(
+                            onClick = {
+                                coroutineScope.launch {
+                                    scaffoldState.drawerState.open()
+                                }
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.List,
+                                contentDescription = "Drawer Button"
+                            )
+                        }
+                    }
+                    )
+                },
+                scaffoldState = scaffoldState,
+                drawerContent = {
+                    AppDrawer(
+                        currentScreen = Screen.Notes, closeDrawerAction = {
+                            coroutineScope.launch {
+                                scaffoldState.drawerState.close()
+                            }
+                        }
+                    )
+                },
+                floatingActionButtonPosition = FabPosition.End,
+                floatingActionButton = {
+                    FloatingActionButton(
+                        onClick = { viewModel.onCreateNewNoteClick() },
+                        contentColor = MaterialTheme.colors.background,
+                        content = {
+                            Icon(
+                                imageVector = Icons.Filled.Add,
+                                contentDescription = "Add Note Button"
+                            )
+                        }
+                    )
+                },
+                content = {
+                    if (notes.isNotEmpty()) {
+                        NotesList(
+                            notes = notes, onNoteCheckedChange = {
+                                viewModel.onNoteCheckedChange(it)
+                            },
+                            onNoteClick = { viewModel.onNoteClick(it)}
+                        )
                     }
                 }
-            )
-        },
-        floatingActionButtonPosition = FabPosition.End,
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { viewModel.onCreateNewNoteClick() },
-                contentColor = MaterialTheme.colors.background,
-                content = {
-                    Icon(
-                        imageVector = Icons.Filled.Add,
-                        contentDescription = "Add Note Button"
-                    )
-                }
-            )
-        },
-        content = {
-            if (notes.isNotEmpty()) {
-                NotesList(
-                    notes = notes, onNoteCheckedChange = {
-                        viewModel.onNoteCheckedChange(it)
-                    },
-                    onNoteClick = { viewModel.onNoteClick(it)}
                 )
             }
-        }
-    )
-}
-@Composable
-private fun NotesList(
-    notes: List<NoteModel>,
-    onNoteCheckedChange: (NoteModel) -> Unit,
-    onNoteClick:(NoteModel) -> Unit
-){
-    LazyColumn{
-        items(count = notes.size){noteIndex ->
-            val note = notes[noteIndex]
-            Note(note = note,
-                onNoteClick = onNoteClick,
-                onNoteCheckedChange = onNoteCheckedChange
-            )
-        }
-    }
-}
-@Preview
-@Composable
-private fun  NotesListPreview(){
-    NotesList(
-        notes = listOf(
-            NoteModel(1,"Note 1", "Content 1", null),
-            NoteModel(2,"Note 2", "Content 2", false) ,
-            NoteModel(3,"Note 1", "Content 3", true)
-        ),
-        onNoteCheckedChange = {},
-        onNoteClick = {}
-    )
-}
+            @Composable
+            private fun NotesList(
+                notes: List<NoteModel>,
+                onNoteCheckedChange: (NoteModel) -> Unit,
+                onNoteClick:(NoteModel) -> Unit
+            ){
+                LazyColumn{
+                    items(count = notes.size){noteIndex ->
+                        val note = notes[noteIndex]
+                        Note(note = note,
+                            onNoteClick = onNoteClick,
+                            onNoteCheckedChange = onNoteCheckedChange
+                        )
+                    }
+                }
+            }
+            @Preview
+            @Composable
+            private fun  NotesListPreview(){
+                NotesList(
+                    notes = listOf(
+                        NoteModel(1,"Note 1", "Content 1", null),
+                        NoteModel(2,"Note 2", "Content 2", false) ,
+                        NoteModel(3,"Note 1", "Content 3", true)
+                    ),
+                    onNoteCheckedChange = {},
+                    onNoteClick = {}
+                )
+            }
