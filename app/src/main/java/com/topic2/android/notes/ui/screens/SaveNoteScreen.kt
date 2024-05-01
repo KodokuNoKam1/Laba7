@@ -1,5 +1,4 @@
 package com.topic2.android.notes.ui.screens
-
 import android.annotation.SuppressLint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,12 +34,10 @@ import com.topic2.android.notes.domain.model.NEW_NOTE_ID
 import com.topic2.android.notes.domain.model.NoteModel
 import com.topic2.android.notes.routing.NotesRouter
 import com.topic2.android.notes.routing.Screen
-
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SaveNoteScreen(viewModel: MainViewModel) {
     val noteEntry: NoteModel by viewModel.noteEntry.observeAsState(NoteModel())
-
     Scaffold(topBar = {
         val isEditingMode: Boolean = noteEntry.id != NEW_NOTE_ID
         SaveNoteTopAppBar(
@@ -53,8 +50,6 @@ fun SaveNoteScreen(viewModel: MainViewModel) {
         content = {}
     )
 }
-
-
 @Composable
 private fun ColorPicker(
     colors: List<ColorModel>,
@@ -191,6 +186,27 @@ private fun SaveNoteTopAppBar(
         }
     )
 }
+@Composable
+private fun PickedColor(color: ColorModel){
+    Row (
+        Modifier
+            .padding(8.dp)
+            .padding(top = 16.dp)
+    ) {
+        Text(
+            text = "Picked color", modifier = Modifier
+                .weight(1f)
+                .align(Alignment.CenterVertically)
+        )
+        NoteColor(
+            color = Color.fromHex(color.hex),
+            size = 40.dp,
+            border = 1.dp,
+            modifier = Modifier.padding(4.dp)
+        )
+    }
+}
+
 @Preview
 @Composable
 fun SaveNoteTopAppBarPreview(){
@@ -201,4 +217,10 @@ fun SaveNoteTopAppBarPreview(){
         onOpenColorPickerClick = {},
         onDeleteNoteClick = {}
     )
+}
+
+@Preview
+@Composable
+fun PickedColorPreview() {
+    PickedColor(ColorModel.DEFAULT)
 }
